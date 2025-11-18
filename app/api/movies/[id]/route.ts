@@ -9,13 +9,13 @@ export async function GET(
   try {
     const [rows] = await db.execute('SELECT * FROM movies WHERE id = ?', [
       params.id,
-    ]);
+    ]) as any;
 
     if ((rows as any[]).length === 0) {
       return NextResponse.json({ error: 'Movie not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ movie: rows[0] });
+    return NextResponse.json({ movie: (rows as any[])[0] });
   } catch (error) {
     console.error('Error fetching movie:', error);
     return NextResponse.json(
@@ -48,10 +48,10 @@ export async function PUT(
 
     const [rows] = await db.execute('SELECT * FROM movies WHERE id = ?', [
       params.id,
-    ]);
+    ]) as any;
 
     return NextResponse.json({
-      movie: rows[0],
+      movie: (rows as any[])[0],
       message: 'Movie updated successfully',
     });
   } catch (error) {

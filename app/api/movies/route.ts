@@ -35,10 +35,10 @@ export async function POST(request: NextRequest) {
 
     const [rows] = await db.execute('SELECT * FROM movies WHERE id = ?', [
       (result as any).insertId,
-    ]);
+    ]) as any;
 
     return NextResponse.json(
-      { movie: rows[0], message: 'Movie created successfully' },
+      { movie: (rows as any[])[0], message: 'Movie created successfully' },
       { status: 201 }
     );
   } catch (error) {
